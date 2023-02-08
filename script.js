@@ -8,6 +8,7 @@
 //iclude numeric?
 //include special characters?
 //at least one type needs to be selected
+//determine which character types have been selected for
 //password is generated
 //password is written to page
 
@@ -35,8 +36,9 @@ let createPassword = function () {
         return null;
     }
 
-    includeLowerCase = window.prompt("Include Lower Case Characters?")
+    includeLowerCase = window.prompt("Include Lower Case Characters?\nYes/No")
     includeLowerCase = includeLowerCase.toUpperCase();
+    includeLowerCase = includeLowerCase.trim();
 
     if (includeLowerCase === "YES") {
         includeLowerCase = true;
@@ -44,8 +46,9 @@ let createPassword = function () {
         includeLowerCase = false;
     }
 
-    includeUpperCase = window.prompt("Include Upper Case Characters?")
+    includeUpperCase = window.prompt("Include Upper Case Characters?\nYes/No")
     includeUpperCase = includeUpperCase.toUpperCase();
+    includeUpperCase = includeUpperCase.trim();
 
     if (includeUpperCase === "YES") {
         includeUpperCase = true;
@@ -53,8 +56,9 @@ let createPassword = function () {
         includeUpperCase = false;
     }
 
-    includeNumeric = window.prompt("Include Numeric Characters?")
+    includeNumeric = window.prompt("Include Numeric Characters?\nYes/No")
     includeNumeric = includeNumeric.toUpperCase();
+    includeNumeric = includeNumeric.trim();
 
     if (includeNumeric === "YES") {
         includeNumeric = true;
@@ -62,8 +66,9 @@ let createPassword = function () {
         includeNumeric = false;
     }
 
-    includeSpecial = window.prompt("Include Special Characters?")
+    includeSpecial = window.prompt("Include Special Characters?\nYes/No")
     includeSpecial = includeSpecial.toUpperCase();
+    includeSpecial = includeSpecial.trim();
 
     if (includeSpecial === "YES") {
         includeSpecial = true;
@@ -80,12 +85,14 @@ let createPassword = function () {
 
     for (let i = 0; i <= passwordLength; i ++) {
         let allCharacters = specialCharacters.concat(numericCharacters, lowerCaseCharacter, upperCaseCharacters);
-        let index = Math.floor(Math.random() * passwordLength);
-        
-
+        let shuffledArray = allCharacters.sort(() => 0.5 - Math.random());
+        finalPassword = shuffledArray.slice(0, passwordLength);
+        finalPassword = finalPassword.join('');
     }
 
 
+
+    
 }
 createPassword();
 
