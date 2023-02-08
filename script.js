@@ -12,20 +12,17 @@
 //password is generated
 //password is written to page
 
-let finalPassword;
-let passwordLength = 0;
-let includeLowerCase = false;
-let includeUpperCase = false;
-let includeNumeric = false;
-let includeSpecial = false;
 let specialCharacters = ["!", "@", '"', "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "[", "]", "^", "_", "`", "{", "}", "|", "}", "~"];
 let numericCharacters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 let upperCaseCharacters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 let lowerCaseCharacter = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
 
-let createPassword = function () {
-    passwordLength = window.prompt("How many characters?");
+let generatePassword = function () {
+    let allCharacters = []
+
+    let finalPassword
+    let passwordLength = window.prompt("How many characters?");
 
     if (passwordLength > 128) {
         window.alert("Password length must be less than 129 characters");
@@ -36,44 +33,32 @@ let createPassword = function () {
         return null;
     }
 
-    includeLowerCase = window.prompt("Include Lower Case Characters?\nYes/No")
-    includeLowerCase = includeLowerCase.toUpperCase();
-    includeLowerCase = includeLowerCase.trim();
+    let includeLowerCase = window.confirm("Include Lower Case Characters?\nYes/No")
 
-    if (includeLowerCase === "YES") {
-        includeLowerCase = true;
-    } else {
-        includeLowerCase = false;
+
+    if (includeLowerCase) {
+        allCharacters = allCharacters.concat(lowerCaseCharacter)
     }
 
-    includeUpperCase = window.prompt("Include Upper Case Characters?\nYes/No")
-    includeUpperCase = includeUpperCase.toUpperCase();
-    includeUpperCase = includeUpperCase.trim();
+    let includeUpperCase = window.confirm("Include Upper Case Characters?\nYes/No")
 
-    if (includeUpperCase === "YES") {
-        includeUpperCase = true;
-    } else {
-        includeUpperCase = false;
+
+    if (includeUpperCase) {
+        allCharacters = allCharacters.concat(upperCaseCharacters)
     }
 
-    includeNumeric = window.prompt("Include Numeric Characters?\nYes/No")
-    includeNumeric = includeNumeric.toUpperCase();
-    includeNumeric = includeNumeric.trim();
+    let includeNumeric = window.confirm("Include Numeric Characters?\nYes/No")
 
-    if (includeNumeric === "YES") {
-        includeNumeric = true;
-    } else {
-        includeNumeric = false;
+
+    if (includeNumeric) {
+        allCharacters = allCharacters.concat(numericCharacters)
     }
 
-    includeSpecial = window.prompt("Include Special Characters?\nYes/No")
-    includeSpecial = includeSpecial.toUpperCase();
-    includeSpecial = includeSpecial.trim();
+    let includeSpecial = window.confirm("Include Special Characters?\nYes/No")
 
-    if (includeSpecial === "YES") {
-        includeSpecial = true;
-    } else {
-        includeSpecial = false;
+
+    if (includeSpecial) {
+        allCharacters = allCharacters.concat(specialCharacters)
     }
 
     if (includeLowerCase === false && includeUpperCase === false && includeNumeric === false && includeSpecial === false) {
@@ -81,20 +66,13 @@ let createPassword = function () {
         return null;
     }
 
-    
+    let shuffledArray = allCharacters.sort(() => 0.5 - Math.random());
+    finalPassword = shuffledArray.slice(0, passwordLength);
+    finalPassword = finalPassword.join('');
 
-    for (let i = 0; i <= passwordLength; i ++) {
-        let allCharacters = specialCharacters.concat(numericCharacters, lowerCaseCharacter, upperCaseCharacters);
-        let shuffledArray = allCharacters.sort(() => 0.5 - Math.random());
-        finalPassword = shuffledArray.slice(0, passwordLength);
-        finalPassword = finalPassword.join('');
-    }
-
-
-
-    
+    return finalPassword
 }
-createPassword();
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
@@ -112,9 +90,3 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 
-console.log(finalPassword);
-console.log(passwordLength);
-console.log(includeLowerCase);
-console.log(includeUpperCase);
-console.log(includeNumeric);
-console.log(includeSpecial);
